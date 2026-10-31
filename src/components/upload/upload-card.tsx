@@ -32,7 +32,11 @@ const EXPIRY_ITEMS: { value: ExpiryOption; label: string }[] = [
 function validate(file: File): string | null {
   if (file.size === 0) return "This file is empty. Choose a file with some content.";
   if (file.size > MAX_FILE_SIZE) {
-    return `"${file.name}" is ${formatBytes(file.size)}. The maximum file size is ${formatBytes(MAX_FILE_SIZE)}.`;
+    const max = formatBytes(MAX_FILE_SIZE);
+    // Just over the limit both values round to the same label, so show exact bytes.
+    const size =
+      formatBytes(file.size) === max ? `${file.size.toLocaleString("en-US")} bytes` : formatBytes(file.size);
+    return `"${file.name}" is ${size}. The maximum file size is ${max}.`;
   }
   return null;
 }

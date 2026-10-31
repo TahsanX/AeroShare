@@ -88,6 +88,7 @@ Redis is optional for local work: without it, caching is skipped and rate limiti
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `next typegen` then `tsc --noEmit` |
 | `npm test` | Unit tests (Vitest) |
+| `npm run test:e2e` | Playwright end-to-end tests (needs `.env` with real Supabase and Upstash credentials) |
 | `npm run format` | Prettier |
 
 ## Project structure
