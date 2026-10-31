@@ -170,8 +170,8 @@ export async function listStalePending(
   return ((data ?? []) as FileRow[]).map(rowToRecord);
 }
 
-/** Atomic counter bump via SQL function `increment_download_count(p_id uuid)`. */
-export async function incrementDownload(id: string): Promise<void> {
-  const { error } = await getSupabase().rpc("increment_download_count", { p_id: id });
+/** Atomic counter bump via SQL function `increment_download_count(p_code text)`. */
+export async function incrementDownload(code: string): Promise<void> {
+  const { error } = await getSupabase().rpc("increment_download_count", { p_code: code });
   if (error) fail("incrementDownload", error.message);
 }

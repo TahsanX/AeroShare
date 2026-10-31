@@ -80,7 +80,7 @@ describe("fileModel", () => {
 
   it("incrementDownload calls rpc", async () => {
     rpc.mockResolvedValue({ error: null });
-    await fileModel.incrementDownload("uuid-1");
-    expect(rpc).toHaveBeenCalledWith("increment_download_count", { p_id: "uuid-1" });
+    await fileModel.incrementDownload("Ab3dE9xZ");
+    expect(rpc).toHaveBeenCalledWith("increment_download_count", { p_code: "Ab3dE9xZ" });
   });
 });

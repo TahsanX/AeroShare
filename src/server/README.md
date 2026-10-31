@@ -44,7 +44,7 @@ Types: `FileStatus`, `FileRow` (DB shape), `FileRecord` (camelCase, includes `id
 - `findByCode(code): FileRecord | null`
 - `markReady(id)`, `setUploadId(id, uploadId)`, `markDeleted(id)`, `deleteById(id)`
 - `listExpired(limit=100, now?)`, `listStalePending(olderThanMs=1h, limit=100, now?)`
-- `incrementDownload(id)` - rpc `increment_download_count` with arg `{ p_id: uuid }` (the SQL function must use that parameter name).
+- `incrementDownload(code)` - rpc `increment_download_count` with arg `{ p_code: text }` (matches the SQL function in `supabase/migrations`).
 - `rowToRecord(row)`, `recordToMeta(record): FileMeta`
 
 Table: `files(id, short_code unique, original_name, size_bytes, mime_type, storage_path, upload_id, status, download_count, created_at, expires_at)`.
