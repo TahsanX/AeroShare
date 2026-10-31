@@ -191,5 +191,5 @@ Rows are marked `deleted`, not removed. `markReady` only updates rows that are s
 - **Download counter is best effort.** If it fails, the download still works. The counter counts requests for a download URL, not completed downloads.
 - **Signed URLs can be shared.** Once issued, a signed download URL works for its lifetime (up to 1 hour) for anyone who has it.
 - **File size.** 50 MB because of the Supabase Free plan. See the README for how to raise it.
-- **Browser upload to the S3 endpoint and CORS** were written down as a spike (`src/server/services/SPIKE_S3_CORS.md`), which states it was not verified against a live project in that branch. Test a real upload in your own environment. If the browser is blocked by CORS, the spike notes list fallbacks (TUS resumable upload).
+- **Browser upload to the S3 endpoint and CORS** were checked against a live Supabase project (see `src/server/services/SPIKE_S3_CORS.md`): the `OPTIONS` preflight returns 200 with `access-control-allow-origin: *`, and presigned part `PUT`s, `ListParts` and `CompleteMultipartUpload` work. The CORS policy is controlled by Supabase, so re-check it if uploads start failing.
 - **No virus scanning, no per-file deletion by the uploader after completion, and no password protection.** These are not implemented.

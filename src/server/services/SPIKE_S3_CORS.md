@@ -30,4 +30,14 @@ to read the `ETag` response header (server uses ListParts).
      Supabase and handles resume; completion is then just `objectExists`.
 
 ## Status
-Not verified against a live project in this branch (no credentials available).
+Verified against a live Supabase project (Free plan, 2026-11-01):
+
+- `CreateMultipartUpload`, presigned `UploadPart` (5MB + 1MB), `ListParts`,
+  `CompleteMultipartUpload` and delete all work with `forcePathStyle`.
+- Browser-style `OPTIONS` preflight for `PUT` returns 200 with
+  `access-control-allow-origin: *`; part `PUT`s expose the `ETag` header.
+- Single signed upload and signed download URLs work; the anon key cannot list,
+  download or upload objects in the private bucket.
+- Full app flow (2MB single, 20MB multipart, checksum match) passes.
+
+The TUS fallback above was not needed.
