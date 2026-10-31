@@ -20,14 +20,12 @@ create index if not exists files_status_created_at_idx on public.files (status, 
 
 alter table public.files enable row level security;
 
--- No insert/update/delete policies: writes happen only via the server
--- using the service-role key (which bypasses RLS).
+-- Deny-all for anon/authenticated: no policies are defined on purpose.
+-- The short code is the only secret protecting a file, and the anon key is
+-- public, so a SELECT policy would let anyone list every short code.
+-- All reads and writes go through the server using the service-role key
+-- (which bypasses RLS).
 drop policy if exists "anon can read ready, unexpired files" on public.files;
-create policy "anon can read ready, unexpired files"
-  on public.files
-  for select
-  to anon
-  using (status = 'ready' and expires_at > now());
 
 -- Atomically increments download_count for a ready, non-expired file.
 create or replace function public.increment_download_count(p_code text)

@@ -20,9 +20,10 @@ The migrations are idempotent and safe to re-run.
 
 ## Access model
 
-All writes go through the server using the service-role key. `anon` can only
-SELECT rows that are `ready` and not expired. `increment_download_count` is
-executable by `service_role` only.
+RLS is enabled on `files` with no policies, so `anon`/`authenticated` can read
+or write nothing. All access goes through the server using the service-role key.
+This keeps short codes unlistable, since the anon key is public.
+`increment_download_count` is executable by `service_role` only.
 
 ## File size limits (important)
 
