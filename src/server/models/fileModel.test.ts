@@ -56,6 +56,13 @@ describe("fileModel", () => {
     });
   });
 
+  it("markReady only updates rows that are still pending", async () => {
+    await fileModel.markReady("uuid-1");
+    const eq = builder.eq as ReturnType<typeof vi.fn>;
+    expect(eq).toHaveBeenCalledWith("id", "uuid-1");
+    expect(eq).toHaveBeenCalledWith("status", "pending");
+  });
+
   it("retries on short_code collision", async () => {
     insertSingle
       .mockResolvedValueOnce({ data: null, error: { code: "23505", message: "dup" } })

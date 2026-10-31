@@ -125,8 +125,15 @@ async function update(
   if (error) fail(op, error.message);
 }
 
-export const markReady = (id: string) =>
-  update("markReady", id, { status: "ready", upload_id: null });
+/** Only a pending row can become ready, so an aborted/deleted upload is never resurrected. */
+export async function markReady(id: string): Promise<void> {
+  const { error } = await getSupabase()
+    .from(TABLE)
+    .update({ status: "ready", upload_id: null })
+    .eq("id", id)
+    .eq("status", "pending");
+  if (error) fail("markReady", error.message);
+}
 
 export const setUploadId = (id: string, uploadId: string) =>
   update("setUploadId", id, { upload_id: uploadId });
