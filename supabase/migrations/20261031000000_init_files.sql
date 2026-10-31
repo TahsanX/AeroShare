@@ -4,7 +4,7 @@ create table if not exists public.files (
   id             uuid primary key default gen_random_uuid(),
   short_code     text unique not null,
   original_name  text not null,
-  size_bytes     bigint not null check (size_bytes > 0 and size_bytes <= 536870912),
+  size_bytes     bigint not null check (size_bytes > 0 and size_bytes <= 52428800),
   mime_type      text,
   storage_path   text not null,
   upload_id      text, -- multipart upload id, if any

@@ -1,7 +1,7 @@
 export const MB = 1024 * 1024;
 
 /** Hard upload limit enforced on client, API and DB. */
-export const MAX_FILE_SIZE = 512 * MB;
+export const MAX_FILE_SIZE = 50 * MB;
 
 /** Files above this size use multipart upload. */
 export const MULTIPART_THRESHOLD = 5 * MB;

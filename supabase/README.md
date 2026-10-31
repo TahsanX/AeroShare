@@ -3,7 +3,7 @@
 Migrations live in `supabase/migrations/`:
 
 - `20261031000000_init_files.sql` - `public.files` table, indexes, RLS, `increment_download_count()`.
-- `20261031000100_storage_bucket.sql` - private `uploads` bucket (512 MB limit).
+- `20261031000100_storage_bucket.sql` - private `uploads` bucket (50 MB limit).
 
 ## Apply
 
@@ -27,12 +27,11 @@ This keeps short codes unlistable, since the anon key is public.
 
 ## File size limits (important)
 
-The bucket sets a 512 MB (536870912 bytes) limit, but Supabase also enforces a
-**global** Storage file size limit that caps every bucket:
+The app limit is 50 MB (52428800 bytes), matching the Supabase Free plan's
+global Storage cap. The same value is used in `MAX_FILE_SIZE`
+(`src/shared/contracts/constants.ts`), the `files.size_bytes` check and the
+bucket `file_size_limit`.
 
-- Free plan: 50 MB maximum.
-- Pro plan (or higher): configurable up to much larger values.
-
-To allow 512 MB uploads you need the Pro plan, and you must raise the global
-limit in the dashboard: Project Settings -> Storage -> "Upload file size limit"
-(set to at least 512 MB). The migration cannot change this setting.
+To support larger files later (e.g. 512 MB) you need the Pro plan, raise the
+global limit under Project Settings -> Storage -> "Upload file size limit", and
+update all three places above.

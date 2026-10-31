@@ -23,7 +23,7 @@ to read the `ETag` response header (server uses ListParts).
   may be hidden from JS (not in `Access-Control-Expose-Headers`), which is fine.
 - CORS error on preflight: Supabase Storage S3 may not allow browser origins.
   Fallbacks, in order:
-  1. Proxy part uploads through a Next route (limited by serverless body size; poor for 512MB).
+  1. Proxy part uploads through a Next route (limited by serverless body size; poor for 50MB).
   2. **TUS resumable upload** (Supabase's native endpoint
      `https://<project>.supabase.co/storage/v1/upload/resumable`) using `tus-js-client`
      with a short-lived bearer token and 6MB chunks. TUS is browser-supported by

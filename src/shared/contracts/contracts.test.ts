@@ -29,7 +29,7 @@ describe("upload contracts", () => {
     expect(r.success).toBe(true);
   });
 
-  it("caps a 512MB file at 64 parts", () => {
-    expect(MAX_PARTS).toBe(64);
+  it("caps a 50MB file at 7 parts", () => {
+    expect(MAX_PARTS).toBe(7);
   });
 });
