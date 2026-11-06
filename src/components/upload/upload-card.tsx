@@ -114,7 +114,7 @@ export function UploadCard() {
   const uploading = phase.name === "uploading";
 
   return (
-    <Card className="mx-auto w-full max-w-xl">
+    <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>{phase.name === "success" ? "Your link is ready" : "Upload a file"}</CardTitle>
         <CardDescription>

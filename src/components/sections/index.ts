@@ -1,0 +1,10 @@
+export { Hero } from "./hero";
+export { BrandStrip } from "./brand-strip";
+export { Statistics } from "./statistics";
+export { Features } from "./features";
+export { HowItWorks } from "./how-it-works";
+export { ProductShowcase } from "./product-showcase";
+export { TaglineReveal } from "./tagline-reveal";
+export { Testimonials } from "./testimonials";
+export { FAQ } from "./faq";
+export { FinalCTA } from "./final-cta";
