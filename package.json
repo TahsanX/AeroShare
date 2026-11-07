@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "bench": "node --env-file=.env scripts/bench.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1161.0",

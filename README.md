@@ -97,7 +97,20 @@ Redis is optional for local work: without it, caching is skipped and rate limiti
 | `npm run typecheck` | `next typegen` then `tsc --noEmit` |
 | `npm test` | Unit tests (Vitest) |
 | `npm run test:e2e` | Playwright end-to-end tests (needs `.env` with real Supabase and Upstash credentials) |
+| `npm run bench` | Benchmarks against the live backend (see [Performance](#performance)) |
 | `npm run format` | Prettier |
+
+## Performance
+
+Measured with [`scripts/bench.mjs`](scripts/bench.mjs) (`npm run bench`) against the real Supabase Storage/Postgres and Upstash Redis backend, local dev server, single run. Numbers will vary with network conditions and plan tier; re-run before quoting them anywhere that matters.
+
+| What | Result |
+| --- | --- |
+| Short-link collision risk | 8-char base62 = 218 trillion codes; <0.23% chance of a collision even at 1M links live at once (auto-retries on collision) |
+| Redis-cached downloads | Repeat signed-download requests served from cache ran 2.8-3.5x faster than the first (uncached) request, which has to sign a fresh URL with Supabase Storage |
+| Per-IP rate limiting | Verified: the 11th upload-init request within a minute from one IP is rejected with 429, matching the configured 10 req/min policy |
+| Concurrent upload-init load | 300 requests from 50 simulated concurrent clients: ~4 req/s sustained, 90% success, p95 latency ~3s. The errors trace to Supabase's free-tier connection limits under burst, not application code - a real scaling bottleneck a paid plan or connection pooling would remove |
+| Parallel multipart upload | Uploading a 24 MB file as 3 parts in parallel (as shipped) vs. one at a time: 1.3-1.7x faster, bounded by the 3-way parallelism cap |
 
 ## Project structure
 
