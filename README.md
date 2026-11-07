@@ -4,7 +4,11 @@ Simple file sharing with short links. Drop a file, get a link, share it. No acco
 
 ## Screenshots
 
-![Homepage overview](docs/screenshots/homepage.png)
+| | |
+| --- | --- |
+| ![Hero and upload](docs/screenshots/01-hero-upload.png) | ![Animated stats](docs/screenshots/02-stats.png) |
+| ![Features](docs/screenshots/03-features.png) | ![How it works](docs/screenshots/04-how-it-works.png) |
+| ![FAQ](docs/screenshots/05-faq.png) | |
 
 ## Features
 
