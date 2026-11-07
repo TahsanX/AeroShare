@@ -4,8 +4,7 @@ Simple file sharing with short links. Drop a file, get a link, share it. No acco
 
 ## Screenshots
 
-![Homepage](docs/screenshots/homepage.png)
-![Animated stats counter](docs/screenshots/stats-counter.png)
+![Homepage overview](docs/screenshots/homepage.png)
 
 ## Features
 
