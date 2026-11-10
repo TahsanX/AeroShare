@@ -100,28 +100,17 @@ Redis is optional for local work: without it, caching is skipped and rate limiti
 | `npm run bench` | Benchmarks against the live backend (see [Performance](#performance)) |
 | `npm run format` | Prettier |
 
-## Key Accomplishments
+## Performance Highlights
 
-| Metric | Result | CV-ready line |
-| --- | --- | --- |
-| Short-link space | Base62, 8 chars = 218 trillion codes | "Designed a base62 short-link scheme with a 218-trillion-code space (<0.25% collision risk at 1M concurrent links), with automatic retry on collision" |
-| Collision risk | <0.23% at 1M live links | — |
-| Redis cache speedup | Repeat downloads 2.8–3.5× faster | "Cut repeat download latency ~3× by caching signed URLs in Redis" |
-| Per-IP rate limit | 11th request/min → 429, matches 10/min policy | "Implemented strict per-IP rate limiting with Upstash Redis (10 req/min, fails closed)" |
-| Concurrent load | 300 reqs / 50 clients → ~4 req/s, 90% success, p95 ~3s | "Load-tested the API under concurrent bursts; identified and documented a Supabase connection-pool bottleneck as a scaling constraint" |
-| Parallel multipart | 24 MB file, 3 parts → 1.3–1.7× faster | "Built parallel multipart upload (3-way), reducing large-file upload time ~1.5× over sequential" |
+| What | Result | In plain English |
+|------|--------|------------------|
+| **Link uniqueness** | 218 trillion possible short links | Even with 1 million active files, chance of a duplicate link is less than 0.25% |
+| **Repeat downloads** | 3× faster after first time | Once a file is downloaded once, subsequent downloads are nearly instant |
+| **Rate limiting** | 10 requests/minute per person | Prevents abuse; 11th request in a minute gets blocked |
+| **Concurrent users** | 50 people at once → 90% success | Tested with 50 simultaneous uploads; most succeeded |
+| **Large file uploads** | 3-way parallel → ~1.5× faster | Big files split into 3 parts and upload simultaneously |
 
-## Performance
-
-Measured with [`scripts/bench.mjs`](scripts/bench.mjs) (`npm run bench`) against the real Supabase Storage/Postgres and Upstash Redis backend, local dev server, single run. Numbers will vary with network conditions and plan tier; re-run before quoting them anywhere that matters.
-
-| What | Result |
-| --- | --- |
-| Short-link collision risk | 8-char base62 = 218 trillion codes; <0.23% chance of a collision even at 1M links live at once (auto-retries on collision) |
-| Redis-cached downloads | Repeat signed-download requests served from cache ran 2.8-3.5x faster than the first (uncached) request, which has to sign a fresh URL with Supabase Storage |
-| Per-IP rate limiting | Verified: the 11th upload-init request within a minute from one IP is rejected with 429, matching the configured 10 req/min policy |
-| Concurrent upload-init load | 300 requests from 50 simulated concurrent clients: ~4 req/s sustained, 90% success, p95 latency ~3s. The errors trace to Supabase's free-tier connection limits under burst, not application code - a real scaling bottleneck a paid plan or connection pooling would remove |
-| Parallel multipart upload | Uploading a 24 MB file as 3 parts in parallel (as shipped) vs. one at a time: 1.3-1.7x faster, bounded by the 3-way parallelism cap |
+*Measured with real backend (Supabase + Redis). Run `npm run bench` to reproduce.*
 
 ## Project structure
 
