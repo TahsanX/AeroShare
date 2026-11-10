@@ -100,6 +100,17 @@ Redis is optional for local work: without it, caching is skipped and rate limiti
 | `npm run bench` | Benchmarks against the live backend (see [Performance](#performance)) |
 | `npm run format` | Prettier |
 
+## Key Accomplishments
+
+| Metric | Result | CV-ready line |
+| --- | --- | --- |
+| Short-link space | Base62, 8 chars = 218 trillion codes | "Designed a base62 short-link scheme with a 218-trillion-code space (<0.25% collision risk at 1M concurrent links), with automatic retry on collision" |
+| Collision risk | <0.23% at 1M live links | — |
+| Redis cache speedup | Repeat downloads 2.8–3.5× faster | "Cut repeat download latency ~3× by caching signed URLs in Redis" |
+| Per-IP rate limit | 11th request/min → 429, matches 10/min policy | "Implemented strict per-IP rate limiting with Upstash Redis (10 req/min, fails closed)" |
+| Concurrent load | 300 reqs / 50 clients → ~4 req/s, 90% success, p95 ~3s | "Load-tested the API under concurrent bursts; identified and documented a Supabase connection-pool bottleneck as a scaling constraint" |
+| Parallel multipart | 24 MB file, 3 parts → 1.3–1.7× faster | "Built parallel multipart upload (3-way), reducing large-file upload time ~1.5× over sequential" |
+
 ## Performance
 
 Measured with [`scripts/bench.mjs`](scripts/bench.mjs) (`npm run bench`) against the real Supabase Storage/Postgres and Upstash Redis backend, local dev server, single run. Numbers will vary with network conditions and plan tier; re-run before quoting them anywhere that matters.
